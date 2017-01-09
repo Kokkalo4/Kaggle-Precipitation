@@ -6,7 +6,7 @@ library(Hmisc)
 library(plotly)
 
 #load data
-precip <- read.csv("c:/users/alex/desktop/R/exercise data/Precipitation in Syracuse NY/Precipitation_Syracuse_NY.csv", header = T)
+precip <- read.csv(".../input/Precipitation_Syracuse_NY.csv", header = T)
 
 #check structure
 str(precip)
@@ -69,25 +69,3 @@ plot_ly(x = precip$Month , y = precip$Precipitation, type = "bar" , name = "Prec
   name = "Average Precipitation",
   type = "bar")
 
-#---------------------------------------------------------------------------------------------------------------------
-
-
-
-library(data.table)
-dtpre=data.table(date = as.IDate(as.Date(as.character(precip$Date),"%Y%m%d"))
-                 ,precip[-1])
-dtpre[, list(mean = mean(AvgPrecipitation),max = max(AvgPrecipitation)), 
-      by = year(date)]
-dtpre[, list(mean = mean(AvgPrecipitation),max = max(AvgPrecipitation)), 
-      by = month(date)]
-
-
-library(lubridate)
-precip$year=year(precip$Date)
-precip$day=yday(precip$Date)#year day (1-365)
-ggplot(precip[precip$year==2012,c(1,3)],aes(Date,AvgPrecipitation))+geom_line()
-
-ggplot(precip,aes(day,AvgPrecipitation))+geom_line()+facet_grid(year~.)
-
-
-precip
